@@ -1,0 +1,146 @@
+<div class="container">
+    <div class="row">
+        <% for(let i=0; i< order.length; i++){  let orders = order[i]; %> 
+        <div class="card">
+            <div class="card-header">
+                <h1>Order Details</h1>
+            </div>
+            <div class="card-body">
+                
+                <div class="table ">
+                    <table class=" table table-bordered table-light">
+                        <tbody>
+                            <tr>
+                                <td>FullName</td>
+                                <td>
+                                    <%= orders.full_name; %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>
+                                    <%= orders.email; %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Primary.No</td>
+                                <td>
+                                    <%= orders.primary_contact; %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Secondary.No</td>
+                                <td>
+                                    <%= orders.alternet_contact; %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Shiping Address</td>
+                                <td>
+                                    <%= (orders.shipping_address + ', ' +orders.shipping_city + ', ' +orders.shipping_pincode); %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>billing Address</td>
+                                <td>
+                                    <%= (orders.billing_address + ', ' +orders.billing_city + ', ' +orders.billing_pincode); %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Grand Total</td>
+                                <td>
+                                    <%= orders.grand_total; %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Payment Mode</td>
+                                <td>
+                                    <%= orders.payment_method; %>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary"  onclick="return getOrderItemInfo('<%= orders.id;%>');">
+                    View Items
+                </button>
+            </div>
+        </div>
+        <% } ;%>
+    </div>
+</div>
+<!-- modal for order items -->
+
+
+
+<!-- Modal orderItemDetails -->
+<div class="modal fade" id="orderItem" tabindex="-1" role="dialog" aria-labelledby="#exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-stripped table-primary">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderItemBody"></tbody>
+                    <tfoot>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function getOrderItemInfo(orderId){
+        console.log('orderItems',orderId);
+        $.ajax({
+            url:'/order-items',
+            method:'GET',
+            data:{orderId:orderId},
+            success:function(result){
+                console.log("result",result);
+                let output='';
+                for(let i=0; i< result.length; i++){
+                    output +=`<tr>
+                        <td>${i+1}</td>
+                        <td>${result[i].title}</td>
+                        <td>${result[i].price}</td>
+                        <td>${result[i].quantity}</td>
+                        </tr>`
+                };
+            $('#orderItemBody').html(output)    
+            $("#orderItem").modal('show');
+            },
+            error:function(error){
+                console.log('error',error)
+            },
+        });
+    }
+</script>

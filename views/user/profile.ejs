@@ -1,0 +1,225 @@
+<div class="card container">
+    <div class="card-header row">
+
+        <div class="col-8">
+            <h3>Profile</h3>
+            <% if(message){ %>
+                <div>
+                    <small>
+                    <h1 class="text text-danger">
+                        <%= message; %></small>
+                    </h1>
+                </div>
+            <% } %>
+        </div>
+
+        <div class="col-2">
+            <button onclick="return changeProfileModal()" class="btn btn-primary"> Change Profile </button>
+        </div>
+
+        <div class="col-2">
+            <button class="btn btn-primary" onclick="return changePasswordModal();"> Change password</button>
+        </div>
+
+    </div>
+    <div class="card-body">
+       
+        <h4>Name :- <strong>
+                <%= singleUser.first_name + " " + singleUser.last_name %>
+            </strong></h4>
+        <h4>Address :- <strong>
+                <%= singleUser.address %>
+            </strong></h4>
+        <h4>Gender :- <strong>
+                <%= singleUser.gender %>
+            </strong></h4>
+        <h4>State :- <strong>
+                <%= singleUser.state %>
+            </strong></h4>
+        <h4>City :- <strong>
+                <%= singleUser.city %>
+            </strong></h4>
+        <h4>date Of Birth :- <strong>
+                <%= singleUser.dob %>
+            </strong></h4>
+        <h4>Pincode :- <strong>
+                <%= singleUser.pincode %>
+            </strong></h4>
+        <h4>Email :- <strong>
+                <%= singleUser.email %>
+            </strong></h4>
+    </div>
+    <div class="card-footer">
+       
+    </div>
+</div>
+<!-- modal for change profile -->
+<div class="modal fade" id="changeProfile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/update-profile" method="post">
+                    <div class="card-body p-md-5 text-black">
+                        <h3 class="mb-5 text-uppercase">Update Profile</h3>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    <input type="text" id="form3Example1m" name="firstName"
+                                        class="form-control form-control-lg" value="<%= singleUser.first_name %>" />
+                                    <label class="form-label" for="form3Example1m">First name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    <input type="text" id="form3Example1n" value="<%= singleUser.last_name %>" name="lastName"
+                                        class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Example1n">Last name</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <input type="text" id="form3Example8" name="address" value="<%= singleUser.address %>" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example8">Address</label>
+                        </div>
+
+                        <div class="d-md-flex justify-content-start align-items-center mb-4 py-2">
+
+                            <h6 class="mb-0 me-4">Gender: </h6>
+
+                            <div class="form-check form-check-inline mb-0 me-4">
+                                <input class="form-check-input" type="radio" id="femaleGender" name="gender"
+                                    value="female" />
+                                <label class="form-check-label" for="femaleGender">Female</label>
+                            </div>
+
+                            <div class="form-check form-check-inline mb-0 me-4">
+                                <input class="form-check-input" type="radio" id="maleGender" name="gender"
+                                    value="male" />
+                                <label class="form-check-label" for="maleGender">Male</label>
+                            </div>
+
+                            <div class="form-check form-check-inline mb-0">
+                                <input class="form-check-input" type="radio" id="otherGender" name="gender"
+                                    value="other" />
+                                <label class="form-check-label" for="otherGender">Other</label>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline mb-4">
+                                    <input type="text" id="form3Example9" value="<%= singleUser.state %>" name="state"
+                                        class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Example9">State</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline mb-4">
+                                    <input type="text" id="form3Example9" value="<%= singleUser.city %>" name="city"
+                                        class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Example9">City</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <input type="date" id="form3Example9" name="dob" value="<%= singleUser.dob;%>" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example9">DOB</label>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <input type="number" id="form3Example90" name="pincode"
+                                class="form-control form-control-lg" value="<%= singleUser.pincode %>" />
+                            <label class="form-label" for="form3Example90">Pincode</label>
+                        </div>
+
+                        <div>
+                            <input type="hidden" value="<%= singleUser.id; %>" name="userId" />
+                        </div>
+
+                        <div class="d-flex justify-content-end pt-3">
+                            <% if(status && message){ %>
+                                <small class="text text-danger">
+                                    <%= status;%> <%= message; %>
+                                </small>
+                                <% } %>
+                                    <button type="submit" class="btn btn-warning btn-lg ms-2">Submit form</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal for change password -->
+<div class="modal fade" id="changePassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/update-password" method="post">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 mb-4">
+                                <div class="form-outline">
+                                    <input type="password" id="form3Example1m" name="currentPassword"
+                                        class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Example1m">Current Password</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-4">
+                                <div class="form-outline">
+                                    <input type="password" id="form3Example1m" name="newPassword"
+                                        class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Example1m">New Password</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-4">
+                                <div class="form-outline">
+                                    <input type="password" id="form3Example1m" name="confirmNewPassword"
+                                        class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Example1m"> Confirm New Password</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <button type="submit" class="btn btn-secondary" >Change Password</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function changeProfileModal(){
+        $("#changeProfile").modal('show');
+    }
+    
+    function changePasswordModal(){
+        $("#changePassword").modal('show');
+        
+    }
+</script>    

@@ -1,0 +1,213 @@
+<div class="container-fluid py-5">
+    <div class="container-fluid">
+        <div class="row g-0 gx-5 align-items-end">
+            <form action="/place-order" method="post" >
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Customer Details
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label>Full Name</label>
+                                                <input type="text" name="fullName" id="fullName" class="form-control"  />
+                                                <small id="fullNameError" class="text text-warning fs-5"></small>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Email</label>
+                                                <input type="email" name="email" id="email" class="form-control" />
+                                                <small id="emailError" class="text text-warning fs-5"></small>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Primary Contact Number</label>
+                                                <input type="number" name="primaryContact" id="primaryContact"
+                                                    class="form-control" />
+                                                <small id="primaryContactError" class="text text-warning fs-5"></small>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Alternate Contact Number</label>
+                                                <input type="number" name="secondaryContact" id="secondaryContact"
+                                                    class="form-control" />
+                                                <small id="secondaryContactError"
+                                                    class="text text-warning fs-5"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Shipping Address
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label>Address</label>
+                                                <textarea name="shippingAddress" id="shippingAddress"
+                                                    class="form-control"></textarea>
+                                                <small id="shippingAddressError" class="text text-warning fs-5"></small>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>City</label>
+                                                <input type="text" name="shippingCity" id="shippingCity"
+                                                    class="form-control" />
+                                                <small id="shippingCityError" class="text text-warning fs-5"></small>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Pincode</label>
+                                                <input type="number" name="shippingPincode" id="shippingPincode"
+                                                    class="form-control" />
+                                                <small id="shippingPincodeError" class="text text-warning fs-5"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Billing Address
+                                        <input type="checkbox" onclick="checkbox();" 
+                                            id="sameAsShiping" />same as shiping address
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label>Address</label>
+                                                <textarea name="billingAddress" id="billingAddress"
+                                                    class="form-control"></textarea>
+                                                <small id="billingAddressError" class="text text-warning fs-5"></small>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>City</label>
+                                                <input type="text" name="billingCity" id="billingCity"
+                                                    class="form-control" />
+                                                <small id="billingCityError" class="text text-warning fs-5"></small>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Pincode</label>
+                                                <input type="number" name="billingPincode" id="billingPincode"
+                                                    class="form-control" />
+                                                <small id="billingPincodeError" class="text text-warning fs-5"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>Title</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% let grandTotal=0; for(let i=0; i< products.length; i++ ) { let
+                                                product=products[i]; grandTotal=grandTotal+ quantity[i] * product.price
+                                                %>
+                                                <tr>
+                                                    <td>
+                                                        <%= i + 1 %>
+                                                    </td>
+                                                    <td>
+                                                        <%= product.title ;%>
+                                                    </td>
+                                                    <td>
+                                                        <%= product.price ;%>
+                                                    </td>
+                                                    <td>
+                                                        <%= quantity[i] ;%>
+                                                    </td>
+                                                    <td>
+                                                        <%= quantity[i] * product.price ;%>
+                                                    </td>
+                                                </tr>
+                                                <input type="hidden"  name="productPrice" value=" <%= product.price ;%>" >
+                                                <input type="hidden"  name="productQuantity" value=" <%= quantity[i] ;%>" >
+                                                <input type="hidden" name="productId" id="productId" value="<%= product.id; %>">
+                                                <% } %>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th colspan="4">Grand Total</th>
+                                                    <th colspan="1">
+                                                        <%= grandTotal %>
+                                                        <input type="hidden" name="grandTotal" value=" <%= grandTotal; %>">
+                                                </th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3>Just Click And Get The Order</h3>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="">
+                                            <label>Payment Method</label><br />
+                                            <span>
+                                                <input type="radio" name="paymentMethod" value="cod" /> COD<br />
+                                            </span>
+                                            <span>
+                                                <input type="radio" name="paymentMethod" value="credit_card" /> Credit
+                                                Card<br />
+                                            </span>
+                                            <span>
+                                                <input type="radio" name="paymentMethod" value="debit_card" /> Debit
+                                                Card<br />
+                                            </span>
+                                            <span>
+                                                <input type="radio" name="paymentMethod" value="net_banking" /> Internet
+                                                Banking<br />
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-warning" type="submit">Place Order</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function checkbox() {
+        console.log('shippingAddress')
+        if ($('#sameAsShiping').is(':checked')) {
+            console.log("Inside if statement");
+            let shippingAddress = $('#shippingAddress').val();
+            console.log("********* shippingAddress", shippingAddress);
+            let shippingCity = $('#shippingCity').val();
+            let shippingPincode = $('#shippingPincode').val();
+            $("#billingAddress").val(shippingAddress);
+            $("#billingCity").val(shippingCity);
+            $("#billingPincode").val(shippingPincode);
+        }
+    };
+    
+</script>

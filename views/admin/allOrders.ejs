@@ -1,0 +1,191 @@
+
+<div class="card">
+    <div class="card-header">
+        <h3>All Orders List</h3>
+    </div>
+    <% if(status && message){ %>
+        <h4 class="text text-danger">
+            <%= message; %>
+        </h4>
+        <% } %>
+    <div class="card-body">
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">S.No.</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Primary No.</th>
+                    <!-- <th scope="col">Alternet No.</th> -->
+                    <th scope="col">Shipping Address</th>
+                    <th scope="col">Shipping City</th>
+                    <th scope="col">Shipping Pincode</th>
+                    <!-- <th scope="col">Billing Address</th>
+                    <th scope="col">Billing City</th>
+                    <th scope="col">Billing Pincode</th> -->
+                    <th scope="col">Payment Method</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let i=0; i < orders.length; i++){const order=orders[i] %>
+                    <tr>
+                        <th scope="row">
+                            <h5>
+                                <%= i + 1; %>
+                            </h5>
+                        </th>
+
+                        <td>
+                            <h5>
+                                <%= order.full_name; %>
+                            </h5>
+                        </td>
+                        <td>
+                            <h5>
+                                <%= order.email; %>
+                            </h5>
+                        </td>
+                        <td>
+                            <h5>
+                                <%= order.primary_contact; %>
+                            </h5>
+                        </td>
+                        <!-- <td>
+                            <h5>
+                                <%= order.alternet_contact; %>
+                            </h5>
+                        </td> -->
+                        <td>
+                            <h5>
+                                <%= order.shipping_address; %>
+                            </h5>
+                        </td>
+                        <td>
+                            <h5>
+                                <%= order.shipping_city; %>
+                            </h5>
+                        </td>
+                        <td>
+                            <h5>
+                                <%= order.shipping_pincode; %>
+                            </h5>
+                        </td>
+                        <!-- <td>
+                            <h5>
+                                <%= order.billing_address; %>
+                            </h5>
+                        </td>
+                        <td>
+                            <h5>
+                                <%= order.billing_city; %>
+                            </h5>
+                        </td>
+                        <td>
+                            <h5>
+                                <%= order.billing_pincode; %>
+                            </h5>
+                        </td> -->
+                        <td>
+                            <h5>
+                                <%= order.payment_method; %>
+                            </h5>
+                        </td>
+                        <td>
+                            <h5>
+                                <a href="#" class="btn btn-info" onclick="return orderDetails('<%= order.id; %>')">Details</a>
+                                <a href="/admin/delete-order/<%= order.id; %>" class="btn btn-danger" onclick="return confirm('you want to delete order?')" >Delete</a>
+                            </h5>
+                        </td>
+                    </tr>
+                    <% } %>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th scope="col">S.No.</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Primary No.</th>
+                    <!-- <th scope="col">Alternet No.</th> -->
+                    <th scope="col">Shipping Address</th>
+                    <th scope="col">Shipping City</th>
+                    <th scope="col">Shipping Pincode</th>
+                    <!-- <th scope="col">Billing Address</th>
+                    <th scope="col">Billing City</th>
+                    <th scope="col">Billing Pincode</th> -->
+                    <th scope="col">Payment Method</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+
+<!-- Modal orderItemDetails -->
+<div class="modal fade" id="orderItem" tabindex="-1" role="dialog" aria-labelledby="#exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-stripped table-primary">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderItemBody"></tbody>
+                    <tfoot>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function orderDetails(orderId){
+        console.log('orderItems',orderId);
+        $.ajax({
+            url:'/order-items',
+            method:'GET',
+            data:{orderId:orderId},
+            success:function(result){
+                console.log("result",result);
+                let output='';
+                for(let i=0; i< result.length; i++){
+                    output +=`<tr>
+                        <td>${i+1}</td>
+                        <td>${result[i].title}</td>
+                        <td>${result[i].price}</td>
+                        <td>${result[i].quantity}</td>
+                        </tr>`
+                };
+            $('#orderItemBody').html(output)    
+            $("#orderItem").modal('show');
+            },
+            error:function(error){
+                console.log('error',error)
+            },
+        });
+    }
+</script>
